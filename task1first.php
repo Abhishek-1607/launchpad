@@ -27,10 +27,7 @@ echo $upperCaseString;
 $lowerCaseString = sec($param);
 echo $lowerCaseString;
 } elseif ($length > 2 && strpos(trim($param), ' ') > 0) {
-/**
-* check if the string is having length more than 2 and having any space
-* Then convert this to sentence case and print the string
-*/
+
 $sentenceCaseString = third(pre($param));
 echo $sentenceCaseString;
 } else {
