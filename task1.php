@@ -15,10 +15,7 @@ if($length < 2) {
     }
     echo $result;
 } elseif ($length >= 2) {
-/**
-* check if the string is having length more than 2 and not having any space
-* Then convert this to lower case and print the string
-*/
+
 for($i=0;$i<$length-1;$i++)
 {
     if($param[$i]!= ' ')
