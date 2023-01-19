@@ -1,7 +1,7 @@
 <?php
 // get query parameter
 $param = isset($_GET['test']) ? $_GET['test'] : 'e';
-// get length of string
+// get length of 
 $length = strlen($param);
 // check if the length is less than 2, then convert this to uppercase and print the string
 if($length < 2) {
