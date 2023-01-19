@@ -1,5 +1,5 @@
 <?php
-
+// total file 1 and file 2 importing
 require 'first.php';
 require 'second.php';
 
