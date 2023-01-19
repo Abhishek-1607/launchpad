@@ -14,6 +14,7 @@ class A{
     }
     use test;
 }
+// creating object
 $x=new A(34,2);
 echo "Division of the number is : ";
 echo $x->division() . "<br>";
