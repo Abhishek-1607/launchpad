@@ -38,6 +38,7 @@ class E implements A,B,C,D{
         return $this->c;
     }
 }
+// creating object
 $p=new E(34,21);
 echo "Sum of the number is: ";
 echo $p->addition();
