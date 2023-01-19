@@ -30,6 +30,7 @@ class four extends third{
         return $this->c;
     }
 }
+// creating object
 $x=new first(45,87);
 echo "First message is : " . "<br>";
 echo "Sum of the number is: ";
