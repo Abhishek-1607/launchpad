@@ -1,5 +1,6 @@
 <?php
 namespace pro;
+
 class StringMagic{
     public $a;
     function __construct($q)
