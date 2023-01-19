@@ -16,6 +16,7 @@ class calculator{
         return $this->c;
     }
 }
+// creating the object
 $p=new calculator(23,45);
 echo $p->add();
 echo "<br>";
