@@ -9,7 +9,7 @@ function sec($try){
     $length=strlen($try);
     if ($length >= 2 && false === strpos(trim($try), ' ')) {
         /**
-        * check if the string is having length more than 2 and not having any space
+        * check if the string  having length more than 2 and not having any space
         * Then convert this to lower case and print the string
         */
         echo strtolower($try);
