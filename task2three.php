@@ -41,6 +41,7 @@ class C extends B{
 class D extends C{
     use divi;
 }
+// creating object
 $x=new D(23,45);
 echo "addition is: ". $x->addition(). "<br>";
 echo "<br>" . "substraction is: ". $x->subtraction(). "<br>";
