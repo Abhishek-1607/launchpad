@@ -1,4 +1,5 @@
 <?php
+
 namespace prev;
 class StringMagic{
     public $a,$c;
