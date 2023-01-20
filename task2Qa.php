@@ -1,11 +1,15 @@
 <?php
-class ptr{
+interface Z{
+    function reInr();
+    function getDbConn();
+}
+class ptr implements Z{
     private static $inr=NULL;
     private $dbconn;
     private function __construct(){
         echo "Database connected <br>";
     }
-    public static function reInr(){
+    public function reInr(){
         if(self::$inr==NULL){
             self::$inr = new Static();
         }
@@ -14,7 +18,7 @@ class ptr{
         }
         return self::$inr;
     }
-    public static function getDbConn(){
+    public function getDbConn(){
         try{
             $db=self::$inr;
             $db->dbconn=new mysqli('localhost','hestabit','hestabit','info');  
