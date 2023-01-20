@@ -1,16 +1,17 @@
 <?php
-// using interfACE
-interface Z{
-    function reInr();
-    function getDbConn();
+interface m{
+    public static function reInr();
 }
-class ptr implements Z{
+interface n{
+    public static function getDbConn();
+}
+class pll implements m,n{
     private static $inr=NULL;
     private $dbconn;
     private function __construct(){
         echo "Database connected <br>";
     }
-    public function reInr(){
+    public static function reInr(){
         if(self::$inr==NULL){
             self::$inr = new Static();
         }
@@ -19,7 +20,7 @@ class ptr implements Z{
         }
         return self::$inr;
     }
-    public function getDbConn(){
+    public static function getDbConn(){
         try{
             $db=self::$inr;
             $db->dbconn=new mysqli('localhost','hestabit','hestabit','info');  
@@ -30,11 +31,10 @@ class ptr implements Z{
         }
     }
 }
-$obj1=ptr::reInr();
-$obj=ptr::getDbConn();
-$sql="delete from information WHERE city='mumbai'";
-$result=$obj->query($sql);
-$response=$result->fetch_all();
-echo "<pre>";print_r($response);
-
+// database connected
+$obj1=pll::reInr();
+$obj2=pll::getDbConn();
+// database already connected
+$obj3=pll::reInr();
+$obj4=pll::getDbConn();
 ?>
