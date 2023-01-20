@@ -1,4 +1,5 @@
 <?php
+// using interfACE
 interface Z{
     function reInr();
     function getDbConn();
