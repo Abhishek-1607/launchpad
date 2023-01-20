@@ -1,4 +1,5 @@
 <?php
+// USING INTERFACE
 interface er{
     public static function reInr();
 }
