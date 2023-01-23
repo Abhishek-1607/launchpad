@@ -1,40 +1,33 @@
 <?php
-interface m{
+interface qto{
     public static function reInr();
 }
-interface n{
-    public static function getDbConn();
+class ppo implements qto
+{
+ // Connection settings
+ private static $host = 'localhost';
+ private static $username = 'hestabit';
+ private static $password = 'hestabit';
+ private static $dbname = 'info';
+ private static $dbConn = NULL;
+
+ public function __construct() {
+ die('Something is not good in your database connection');
+ }
+ public static function reInr() {
+ // One connection through whole application
+ if(self::$dbConn==NULL) {
+ try {
+ self::$dbConn = new PDO("mysql:host=".self::$host.";"."dbname=".self::$dbname, self::$username, self::$password);
+ }
+ catch(PDOException $e) {
+    die($e->getMessage());
+ }
+ }
+// errror during database connection
+ self::$dbConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ 
+ return self::$dbConn;
+ }
 }
-class pll implements m,n{
-    private static $inr=NULL;
-    private $dbconn;
-    private function __construct(){
-        echo "Database connected <br>";
-    }
-    public static function reInr(){
-        if(self::$inr==NULL){
-            self::$inr = new Static();
-        }
-        else{
-            echo "already connected <br>";
-        }
-        return self::$inr;
-    }
-    public static function getDbConn(){
-        try{
-            $db=self::$inr;
-            $db->dbconn=new mysqli('localhost','hestabit','hestabit','info');  
-            return $db->dbconn;
-        }
-        catch(Exception $e){
-                echo "error".$e->getMessage();
-        }
-    }
-}
-// database connected
-$obj1=pll::reInr();
-$obj2=pll::getDbConn();
-// database already connected
-$obj3=pll::reInr();
-$obj4=pll::getDbConn();
-?>
+$obj=ppo::reInr();
