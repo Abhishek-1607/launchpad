@@ -55,7 +55,7 @@ function select($tableName, $columns)
     
     $result = $this->_mysqli->query($query);
     $response = [];
-    $response['values']= mysqli_fetch_all($result);
+    $response[]= mysqli_fetch_all($result);
     print_r($response);
     return $response;
 }
