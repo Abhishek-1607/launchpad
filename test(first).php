@@ -60,7 +60,7 @@ function select($tableName, $columns)
     return $response;
 }
 
-// insert
+// insert operation
 function insert($tableName, $columns, $values){
    // $impl=implode(",",$values); not help becuase it will give sql error;
    $impl="'" . implode("', '", $values ) ."'";
@@ -71,7 +71,7 @@ function insert($tableName, $columns, $values){
     return $result;
 }
 
-// delete
+// delete operation
 function delete($tableName,$conditions){
     $whereString = $this->convertArrayToString($conditions);
     $query="DELETE FROM $tableName WHERE $whereString";
@@ -81,7 +81,7 @@ function delete($tableName,$conditions){
     return $result;
 }
 
-// UPDATE
+// UPDATE operation
 function update($tableName, $columns, $values,$conditions){
     $updateString=$this->updateWhereString($columns,$values);
     // echo " i am here";
