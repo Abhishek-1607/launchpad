@@ -1,96 +1,76 @@
 <?php
-interface abcs{
-    function connect();
-    function disconnect();
-    function select($tableName, $columns);
-    function insert($tableName, $columns, $values);
-    function update($tableName, $columns, $values,$conditions);
-    function delete($tableName, $conditions);
+class ptr{
+    private static $inr=NULL;
+    private $dbconn;
+    private function __construct(){
+        echo "Database connected <br>";
     }
-class connection implements abcs
-{
-private $host = '';
-
-private $username = '';
-
-private $password = '';
-
-private $dbname = '';
-
-private $port = '';
-
-private $socket = '';
-
-private $_mysqli;
-
-function __construct($host, $username, $password, $dbname, $port = null, $socket = null)
-{
-    $this->host = $host;
-    $this->username = $username;
-    $this->password = $password;
-    $this->dbname = $dbname;
-    $this->port = $port;
-    $this->socket = $socket;
-}
-
-function connect()
-{
-    $this->_mysqli = new mysqli($this->host, $this->username, $this->password, $this->dbname, $this->socket);
-    if ($this->_mysqli->connect_error) {
-        return true;
+    public static function reInr(){
+        if(self::$inr==NULL){
+            self::$inr = new ptr();
+        }
+        else{
+            echo "already connected <br>";
+        }
+        return self::$inr;
     }
-    return false;
-}
-
-function disconnect()
-{
-    if (isset($this->_mysqli)) {
-        $this->_mysqli->close();
+    public static function getDbConn(){
+        try{
+            $db=self::$inr;
+            $db->dbconn=new mysqli('localhost','hestabit','hestabit','info');  
+            return $db->dbconn;
+        }
+        catch(Exception $e){
+                echo "error".$e->getMessage();
+        }
     }
-}
-// select operation
-function select($tableName, $columns)
+
+
+    // SELECT OPERATION
+    function select($tableName, $columns)
 {
-    $query = "SELECT $columns FROM $tableName";
+    $db = ptr::getDbConn();
+    $sql = "SELECT $columns FROM $tableName";
     
-    $result = $this->_mysqli->query($query);
+    $result = $db->query($sql);
+    print_r($result);
     $response = [];
     $response[]= mysqli_fetch_all($result);
     print_r($response);
     return $response;
 }
 
-// insert operation
-function insert($tableName, $columns, $values){
-   // $impl=implode(",",$values); not help becuase it will give sql error;
-   $impl="'" . implode("', '", $values ) ."'";
-    // print_r($impl);
-    $query="INSERT INTO $tableName $columns VALUES ($impl)";
-    // print_r($query);
-    $result=$this->_mysqli->query($query);
-    return $result;
-}
 
-// delete operation
-function delete($tableName,$conditions){
-    $whereString = $this->convertArrayToString($conditions);
+// insert
+public static function insert($tableName, $columns, $values){
+    $db = ptr::getDbConn();
+    // $impl=implode(",",$values); not help becuase it will give sql error;
+    $impl="'" . implode("', '", $values ) ."'";
+     // print_r($impl);
+     $query="INSERT INTO $tableName $columns VALUES ($impl)";
+     // print_r($query);
+     $result=$db->query($query);
+     return $result;
+ }
+
+
+ // delete
+public static function delete($tableName,$conditions,$db){
+    $whereString = self::convertArrayToString($conditions);
     $query="DELETE FROM $tableName WHERE $whereString";
     // print_r($query);
     // echo "<br>";
-    $result=$this->_mysqli->query($query);
+    $result=$db->query($query);
     return $result;
 }
-
-// UPDATE operation
-function update($tableName, $columns, $values,$conditions){
-    $updateString=$this->updateWhereString($columns,$values);
+// UPDATE
+public static function update($tableName, $columns, $values,$conditions,$db){
+    $updateString=$db->updateWhereString($columns,$values);
     // echo " i am here";
-    $whereString=$this->convertArrayToString($conditions);
-    
-    
+    $whereString=$db->convertArrayToString($conditions);
     $query="UPDATE $tableName SET $updateString WHERE $whereString";
     // print_r($query);
-    $result=$this->_mysqli->query($query);
+    $result=$db->query($query);
     // print_r($result);
     return $result;
     
@@ -115,29 +95,21 @@ public function updateWhereString($key,$value){
        
 }
 
-
 }
-$obj=new connection('localhost','hestabit','hestabit','info');
-echo $obj->connect();
-// echo $obj->disconnect();
+$obj1=ptr::reInr();
+
+// SELECT OPERATION CALLING
+$obj1->select('information','*');
+
+// INSERT OPERAATION CALLING
+$obj1->insert('information','(id,name,email,gender,phone,city)',array('10','j','j@gmail.com','f','100009','del'));
+
+// DELETE OPERATION CALLING
+$obj1->delete('information',array('id','2'));
 
 
+// UPDATE OPERATION CALLING
+$obj1->update('information','name,email,gender,phone,city',array('rajest','rajesh@gmail.com','m','1737475','singapour'),array('id','5'));
 
 
-// select operation
- $obj->select('information','*');
-
-
-
-// delete operation
-// $obj->delete('information',array('id','2'));
-
-
-// $obj->insert('information','id',array(10));
-//  $obj->insert('information','(id,name,email,gender,phone,city)',array('10','j','j@gmail.com','f','100009','del'));
-
-
-
-// update command  update($tableName, $columns, $values)
-$obj->update('information','name,email,gender,phone,city',array('rajest','rajesh@gmail.com','m','1737475','singapour'),array('id','5'));
 ?>
