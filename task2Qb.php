@@ -1,4 +1,4 @@
-<?php
+
 class ptr{
     private static $inr=NULL;
     private $dbconn;
@@ -7,7 +7,7 @@ class ptr{
     }
     public static function reInr(){
         if(self::$inr==NULL){
-            self::$inr = new Static();
+            self::$inr = new ptr();
         }
         else{
             echo "already connected <br>";
@@ -24,17 +24,12 @@ class ptr{
                 echo "error".$e->getMessage();
         }
     }
+
+   
+
 }
 $obj1=ptr::reInr();
-$obj=ptr::getDbConn();
-$obj2=ptr::reInr();
-$ob3=ptr::getDbConn();
-// $sql="* from information";
-// $sql="update from information set city='mumbai'";
-// $sql="delete from information WHERE city='mumbai'";
-$sql="delete from information WHERE city='mumbai'";
-$result=$obj->query($sql);
-$response=$result->fetch_all();
-echo "<pre>";print_r($response);
+
+
 
 ?>
