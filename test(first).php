@@ -27,7 +27,7 @@ class ptr{
 
 
     // SELECT OPERATION
-    function select($tableName, $columns)
+    function select($tableName)
 {
     $db = ptr::getDbConn();
     $sql = "SELECT $columns FROM $tableName";
