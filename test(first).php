@@ -27,11 +27,15 @@ class ptr{
 
 
     // SELECT OPERATION
-    function select($tableName)
+    function select($tableName, $columns,$conditions)
 {
     $db = ptr::getDbConn();
-    $sql = "SELECT $columns FROM $tableName";
-    
+    $sql = "SELECT $columns FROM $tableName ";
+    if(!empty($conditions)){
+        $searchString=self::convertSearchString($conditions);
+        $sql .= "WHERE $searchString";
+    }
+    print_r($sql);
     $result = $db->query($sql);
     print_r($result);
     $response = [];
@@ -42,7 +46,7 @@ class ptr{
 
 
 // insert
-public static function insert($tableName, $columns, $values){
+function insert($tableName, $columns, $values){
     $db = ptr::getDbConn();
     // $impl=implode(",",$values); not help becuase it will give sql error;
     $impl="'" . implode("', '", $values ) ."'";
@@ -55,7 +59,8 @@ public static function insert($tableName, $columns, $values){
 
 
  // delete
-public static function delete($tableName,$conditions,$db){
+ function delete($tableName,$conditions){
+    $db = ptr::getDbConn();
     $whereString = self::convertArrayToString($conditions);
     $query="DELETE FROM $tableName WHERE $whereString";
     // print_r($query);
@@ -64,7 +69,8 @@ public static function delete($tableName,$conditions,$db){
     return $result;
 }
 // UPDATE
-public static function update($tableName, $columns, $values,$conditions,$db){
+function update($tableName, $columns, $values,$conditions){
+    $db = ptr::getDbConn();
     $updateString=$db->updateWhereString($columns,$values);
     // echo " i am here";
     $whereString=$db->convertArrayToString($conditions);
@@ -76,6 +82,14 @@ public static function update($tableName, $columns, $values,$conditions,$db){
     
 }
 
+// convert array of string
+public function convertSearchString($arrayValues){
+    $Stringbuild='';
+    foreach($arrayValues as $key=>$values){
+        $Stringbuild .= $key . $values;
+    }
+    return $Stringbuild;
+}
 public function convertArrayToString($arrayValues)
 {
     $p=implode('=',$arrayValues);
@@ -99,17 +113,17 @@ public function updateWhereString($key,$value){
 $obj1=ptr::reInr();
 
 // SELECT OPERATION CALLING
-$obj1->select('information','*');
+$obj1->select('information','*',array('city='=>"'del'",'And id='=>'10'));
 
 // INSERT OPERAATION CALLING
-$obj1->insert('information','(id,name,email,gender,phone,city)',array('10','j','j@gmail.com','f','100009','del'));
+// $obj1->insert('information','(id,name,email,gender,phone,city)',array('16','rHUK','RAHUL@gmail.com','M','1000016','del'));
 
 // DELETE OPERATION CALLING
-$obj1->delete('information',array('id','2'));
+// $obj1->delete('information',array('id','2'));
 
 
 // UPDATE OPERATION CALLING
-$obj1->update('information','name,email,gender,phone,city',array('rajest','rajesh@gmail.com','m','1737475','singapour'),array('id','5'));
+// $obj1->update('information','name,email,gender,phone,city',array('rajest','rajesh@gmail.com','m','1737475','singapour'),array('id','5'));
 
 
 ?>
